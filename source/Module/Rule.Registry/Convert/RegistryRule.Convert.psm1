@@ -369,7 +369,7 @@ class RegistryRuleConvert : RegistryRule
     {
         if ($null -eq $this.DuplicateOf)
         {
-            if ($FixText -match 'Administrative Templates' -or $this.key -match "(^hkcu|^HKEY_CURRENT_USER)")
+            if ($FixText -match 'Administrative Templates|Administrative\\Templates' -or $this.key -match "(^hkcu|^HKEY_CURRENT_USER)")
             {
                 $this.DscResource = 'RegistryPolicyFile'
             }
@@ -399,7 +399,7 @@ class RegistryRuleConvert : RegistryRule
                 $CheckContent -NotMatch "N'HKEY_LOCAL_MACHINE'"
             ) -or
             (
-                $CheckContent -Match "Windows Registry Editor" -and
+                $CheckContent -Match "Windows Registry Editor|omnibox" -and
                 $CheckContent -Match "HKLM|HKCU"
             ) -or
             (

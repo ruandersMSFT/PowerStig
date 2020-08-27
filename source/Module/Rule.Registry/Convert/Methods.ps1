@@ -31,6 +31,11 @@ function Get-RegistryKey
             $result = Get-McAfeeRegistryPath -CheckContent $CheckContent
         }
 
+        if ($result -match 'Policies\\Google\\Chrome')
+        {
+            $result = ($result | Select-String -pattern "((HKEY_LOCAL_MACHINE).*\\Chrome)").Matches.Value
+        }
+
         if ($result -match "!")
         {
             $result = $result.Substring(0, $result.IndexOf('!'))
