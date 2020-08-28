@@ -17,12 +17,16 @@ $global:SingleLineRegistryPath += [ordered]@{
 
 $global:SingleLineRegistryValueName += [ordered]@{
     Chrome1 = @{
-        Select = '(?<=3. If the a registry value name of )\w+'
+        Match  = 'Chrome\\CookiesSessionOnlyForUrls'
+        Select = 'CookiesSessionOnlyForUrls'
     }
     Chrome2 = @{
-        Select = '(?<=3. If the value name |3. If this key "|3. If the key ")\w+'
+        Select = '(?<=3. If the a registry value name of )\w+'
     }
     Chrome3 = @{
+        Select = '(?<=3. If the value name |3. If this key "|3. If the key ")\w+'
+    }
+    Chrome4 = @{
         Select = '(?<=3. If the |3. If the ")\w+'
     }
 }

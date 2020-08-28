@@ -261,12 +261,20 @@ function Get-RegistryValueTypeFromSLStig
     # McAfee STIG isn't written in a way that ValueType can be detected via CheckContent and/or FixText
     if ($CheckContent -match 'Wow6432Node\\McAfee|Google\\Chrome')
     {
-        if ($CheckContent -match 'ExtensionInstallBlacklist')
+        switch ($CheckContent)
         {
-            $valueType = 'REG_SZ'
-        }
-        else {
-            $valueType = 'DWORD'
+            {$CheckContent -match 'ExtensionInstallBlacklist'}
+            {
+                $valueType = 'REG_SZ'
+            }
+            {$CheckContent -match 'CookiesSessionOnlyForUrls'}
+            {
+                $valueType = 'Does Not Exist'
+            }
+            default
+            {
+                $valueType = 'DWORD'
+            }
         }
     }
     else
@@ -367,6 +375,13 @@ function Get-RegistryValueNameFromSingleLineStig
         [psobject]
         $CheckContent
     )
+
+    # Chrome uses smart quotes which must be removed for parsing
+    $smartDoubleQuotes = '[\u201C\u201D]'
+    if($CheckContent -match $smartDoubleQuotes)
+    {
+        $CheckContent = $CheckContent -replace $smartDoubleQuotes,'"'
+    }
 
     foreach ($item in $global:SingleLineRegistryValueName.Values)
     {
