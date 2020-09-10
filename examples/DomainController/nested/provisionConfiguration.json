@@ -113,12 +113,27 @@
       },
       "resources": [
         {
-          "name": "[variables('dscResources').AccessControlDsc.name]",
+          "name": "[variables('dscResources').PSDscResources.name]",
           "type": "modules",
           "apiVersion": "2020-01-13-preview",
           "location": "[parameters('location')]",
           "dependsOn": [
             "[parameters('AutomationAccountName')]"
+          ],
+          "properties": {
+            "contentLink": {
+              "uri": "[variables('dscResources').PSDscResources.url]"
+            }
+          }
+        },
+        {
+          "name": "[variables('dscResources').AccessControlDsc.name]",
+          "type": "modules",
+          "apiVersion": "2020-01-13-preview",
+          "location": "[parameters('location')]",
+          "dependsOn": [
+            "[parameters('AutomationAccountName')]",
+            "[variables('dscResources').PSDscResources.name]"
           ],
           "properties": {
             "contentLink": {
@@ -132,7 +147,8 @@
           "apiVersion": "2020-01-13-preview",
           "location": "[parameters('location')]",
           "dependsOn": [
-            "[parameters('AutomationAccountName')]"
+            "[parameters('AutomationAccountName')]",
+            "[variables('dscResources').AccessControlDsc.name]"
           ],
           "properties": {
             "contentLink": {
@@ -146,7 +162,8 @@
           "apiVersion": "2020-01-13-preview",
           "location": "[parameters('location')]",
           "dependsOn": [
-            "[parameters('AutomationAccountName')]"
+            "[parameters('AutomationAccountName')]",
+            "[variables('dscResources').ActiveDirectoryDsc.name]"
           ],
           "properties": {
             "contentLink": {
@@ -160,7 +177,8 @@
           "apiVersion": "2020-01-13-preview",
           "location": "[parameters('location')]",
           "dependsOn": [
-            "[parameters('AutomationAccountName')]"
+            "[parameters('AutomationAccountName')]",
+            "[variables('dscResources').AuditPolicyDsc.name]"
           ],
           "properties": {
             "contentLink": {
@@ -174,7 +192,8 @@
           "apiVersion": "2020-01-13-preview",
           "location": "[parameters('location')]",
           "dependsOn": [
-            "[parameters('AutomationAccountName')]"
+            "[parameters('AutomationAccountName')]",
+            "[variables('dscResources').AuditSystemDsc.name]"
           ],
           "properties": {
             "contentLink": {
@@ -188,7 +207,8 @@
           "apiVersion": "2020-01-13-preview",
           "location": "[parameters('location')]",
           "dependsOn": [
-            "[parameters('AutomationAccountName')]"
+            "[parameters('AutomationAccountName')]",
+            "[variables('dscResources').ComputerManagementDsc.name]"
           ],
           "properties": {
             "contentLink": {
@@ -202,11 +222,102 @@
           "apiVersion": "2020-01-13-preview",
           "location": "[parameters('location')]",
           "dependsOn": [
-            "[parameters('AutomationAccountName')]"
+            "[parameters('AutomationAccountName')]",
+            "[variables('dscResources').FileContentDsc.name]"
           ],
           "properties": {
             "contentLink": {
               "uri": "[variables('dscResources').GPRegistryPolicyDsc.url]"
+            }
+          }
+        },
+        {
+          "name": "[variables('dscResources').SecurityPolicyDsc.name]",
+          "type": "modules",
+          "apiVersion": "2020-01-13-preview",
+          "location": "[parameters('location')]",
+          "dependsOn": [
+            "[parameters('AutomationAccountName')]",
+            "[variables('dscResources').GPRegistryPolicyDsc.name]"
+          ],
+          "properties": {
+            "contentLink": {
+              "uri": "[variables('dscResources').SecurityPolicyDsc.url]"
+            }
+          }
+        },
+        {
+          "name": "[variables('dscResources').SqlServerDsc.name]",
+          "type": "modules",
+          "apiVersion": "2020-01-13-preview",
+          "location": "[parameters('location')]",
+          "dependsOn": [
+            "[parameters('AutomationAccountName')]",
+            "[variables('dscResources').SecurityPolicyDsc.name]"
+          ],
+          "properties": {
+            "contentLink": {
+              "uri": "[variables('dscResources').SqlServerDsc.url]"
+            }
+          }
+        },
+        {
+          "name": "[variables('dscResources').StorageDsc.name]",
+          "type": "modules",
+          "apiVersion": "2020-01-13-preview",
+          "location": "[parameters('location')]",
+          "dependsOn": [
+            "[parameters('AutomationAccountName')]",
+            "[variables('dscResources').SqlServerDsc.name]"
+          ],
+          "properties": {
+            "contentLink": {
+              "uri": "[variables('dscResources').StorageDsc.url]"
+            }
+          }
+        },
+        {
+          "name": "[variables('dscResources').WindowsDefenderDsc.name]",
+          "type": "modules",
+          "apiVersion": "2020-01-13-preview",
+          "location": "[parameters('location')]",
+          "dependsOn": [
+            "[parameters('AutomationAccountName')]",
+            "[variables('dscResources').StorageDsc.name]"
+          ],
+          "properties": {
+            "contentLink": {
+              "uri": "[variables('dscResources').WindowsDefenderDsc.url]"
+            }
+          }
+        },
+        {
+          "name": "[variables('dscResources').xDnsServer.name]",
+          "type": "modules",
+          "apiVersion": "2020-01-13-preview",
+          "location": "[parameters('location')]",
+          "dependsOn": [
+            "[parameters('AutomationAccountName')]",
+            "[variables('dscResources').WindowsDefenderDsc.name]"
+          ],
+          "properties": {
+            "contentLink": {
+              "uri": "[variables('dscResources').xDnsServer.url]"
+            }
+          }
+        },
+        {
+          "name": "[variables('dscResources').xWebAdministration.name]",
+          "type": "modules",
+          "apiVersion": "2020-01-13-preview",
+          "location": "[parameters('location')]",
+          "dependsOn": [
+            "[parameters('AutomationAccountName')]",
+            "[variables('dscResources').xDnsServer.name]"
+          ],
+          "properties": {
+            "contentLink": {
+              "uri": "[variables('dscResources').xWebAdministration.url]"
             }
           }
         },
@@ -228,111 +339,14 @@
             "[variables('dscResources').SqlServerDsc.name]",
             "[variables('dscResources').WindowsDefenderDsc.name]",
             "[variables('dscResources').xDnsServer.name]",
-            "[variables('dscResources').xWebAdministration.name]"          ],
+            "[variables('dscResources').xWebAdministration.name]"
+          ],
           "properties": {
             "contentLink": {
               "uri": "[variables('dscResources').PowerSTIG.url]"
             }
           }
         },
-        {
-          "name": "[variables('dscResources').PSDscResources.name]",
-          "type": "modules",
-          "apiVersion": "2020-01-13-preview",
-          "location": "[parameters('location')]",
-          "dependsOn": [
-            "[parameters('AutomationAccountName')]"
-          ],
-          "properties": {
-            "contentLink": {
-              "uri": "[variables('dscResources').PSDscResources.url]"
-            }
-          }
-        },        
-        {
-          "name": "[variables('dscResources').SecurityPolicyDsc.name]",
-          "type": "modules",
-          "apiVersion": "2020-01-13-preview",
-          "location": "[parameters('location')]",
-          "dependsOn": [
-            "[parameters('AutomationAccountName')]"
-          ],
-          "properties": {
-            "contentLink": {
-              "uri": "[variables('dscResources').SecurityPolicyDsc.url]"
-            }
-          }
-        },        
-        {
-          "name": "[variables('dscResources').SqlServerDsc.name]",
-          "type": "modules",
-          "apiVersion": "2020-01-13-preview",
-          "location": "[parameters('location')]",
-          "dependsOn": [
-            "[parameters('AutomationAccountName')]"
-          ],
-          "properties": {
-            "contentLink": {
-              "uri": "[variables('dscResources').SqlServerDsc.url]"
-            }
-          }
-        },        
-        {
-          "name": "[variables('dscResources').StorageDsc.name]",
-          "type": "modules",
-          "apiVersion": "2020-01-13-preview",
-          "location": "[parameters('location')]",
-          "dependsOn": [
-            "[parameters('AutomationAccountName')]"
-          ],
-          "properties": {
-            "contentLink": {
-              "uri": "[variables('dscResources').StorageDsc.url]"
-            }
-          }
-        },
-        {
-          "name": "[variables('dscResources').WindowsDefenderDsc.name]",
-          "type": "modules",
-          "apiVersion": "2020-01-13-preview",
-          "location": "[parameters('location')]",
-          "dependsOn": [
-            "[parameters('AutomationAccountName')]"
-          ],
-          "properties": {
-            "contentLink": {
-              "uri": "[variables('dscResources').WindowsDefenderDsc.url]"
-            }
-          }
-        },        
-        {
-          "name": "[variables('dscResources').xDnsServer.name]",
-          "type": "modules",
-          "apiVersion": "2020-01-13-preview",
-          "location": "[parameters('location')]",
-          "dependsOn": [
-            "[parameters('AutomationAccountName')]"
-          ],
-          "properties": {
-            "contentLink": {
-              "uri": "[variables('dscResources').xDnsServer.url]"
-            }
-          }
-        },        
-        {
-          "name": "[variables('dscResources').xWebAdministration.name]",
-          "type": "modules",
-          "apiVersion": "2020-01-13-preview",
-          "location": "[parameters('location')]",
-          "dependsOn": [
-            "[parameters('AutomationAccountName')]"
-          ],
-          "properties": {
-            "contentLink": {
-              "uri": "[variables('dscResources').xWebAdministration.url]"
-            }
-          }
-        },        
         {
           "name": "Credential",
           "type": "credentials",
